@@ -5,11 +5,18 @@
  */
 package gui;
 
+import database.DBConnection;
+import java.sql.Statement;
+import java.sql.SQLException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
 /**
  *
  * @author ysajid
  */
 public class Main extends javax.swing.JFrame {
+    static DBConnection db;
 
     /**
      * Creates new form Main
@@ -84,9 +91,31 @@ public class Main extends javax.swing.JFrame {
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
                 new Main().setVisible(true);
+                try {
+                    db = new DBConnection();
+                    db.connect();
+                } catch (SQLException ex) {
+                    Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
+                }
+                
+                try {
+                    Statement st = db.getConnection().createStatement();
+                    st.execute("insert into tags values(,'daily','#fff')");
+                } catch (SQLException ex) {
+                    Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
+                }
+                
             }
         });
     }
+
+    @Override
+    protected void finalize() throws Throwable {
+        db.close();
+        super.finalize(); //To change body of generated methods, choose Tools | Templates.
+    }
+    
+    
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButton1;
