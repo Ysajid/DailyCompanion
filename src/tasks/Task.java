@@ -1,16 +1,8 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
+
 package tasks;
 
 import java.util.Date;
 
-/**
- *
- * @author ysajid
- */
 public class Task {
     
     private String title;
@@ -22,10 +14,9 @@ public class Task {
     private int weight = 0;
     private Tag tags[];
 
-    public Task(String title, String description, int type, Date dueDate, boolean remind, String status, int weight, Tag[] tags) {
+    public Task(String title, String description, Date dueDate, boolean remind, String status, int weight, Tag[] tags) {
         this.title = title;
         this.description = description;
-        this.type = type;
         this.dueDate = dueDate;
         this.remind = remind;
         this.status = status;
@@ -39,6 +30,18 @@ public class Task {
     Task(String title, String description){
         this.title = title;
         this.description = description;
+    }
+    Task(String title, String description, Date dueDate, Tag[] tags ){
+        this.title = title;
+        this.description = description;
+        this.dueDate = dueDate;
+        this.tags = tags;
+    }
+    Task(String title, String descrption, Date dueDate, boolean remind){
+        this.title = title;
+        this.description = descrption;
+        this.dueDate = dueDate;
+        this.remind = remind;
     }
     public String getDescription() {
         return description;
