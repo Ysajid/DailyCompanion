@@ -6,21 +6,25 @@
 package database;
 
 import java.sql.*;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+import java.util.*;
+import java.util.logging.*;
+import tasks.Tag;
+import tasks.Task;
 
 /**
  *
  * @author ysajid
  */
-public class DBConnection {
+public class Data {
     private static Connection connection;
+    private static ArrayList<Task> tasks;
+    private static ArrayList<Tag> tags;
     
     public boolean isConnected(){
         try {
             return !connection.isClosed();
         } catch (SQLException ex) {
-            Logger.getLogger(DBConnection.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(Data.class.getName()).log(Level.SEVERE, null, ex);
             return false;
         }
     }
@@ -33,12 +37,27 @@ public class DBConnection {
         return connection;
     }
     
+    public void open(){
+        java.awt.EventQueue.invokeLater(new Runnable() {
+
+            @Override
+            public void run() {
+                
+            }
+       
+        });
+    }
+    
     public void close(){
         try {
             connection.close();
         } catch (SQLException ex) {
-            Logger.getLogger(DBConnection.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(Data.class.getName()).log(Level.SEVERE, null, ex);
         }
+    }
+    
+    public ArrayList<Task> getTasks(){
+        return tasks;
     }
     
 }
