@@ -5,17 +5,22 @@
  */
 package gui;
 
+import javax.swing.JOptionPane;
+import tasks.Task;
+
 /**
  *
  * @author shiha
  */
 public class AddTask extends javax.swing.JFrame {
 
+    Task task;
     /**
      * Creates new form AddTask
      */
     public AddTask() {
         initComponents();
+        setVisible(true);
     }
 
     /**
@@ -27,158 +32,229 @@ public class AddTask extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jTextField1 = new javax.swing.JTextField();
+        title = new javax.swing.JTextField();
         jLabel2 = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
-        jTextArea1 = new javax.swing.JTextArea();
+        desc = new javax.swing.JTextArea();
         jLabel1 = new javax.swing.JLabel();
-        jXDatePicker1 = new org.jdesktop.swingx.JXDatePicker();
+        date = new org.jdesktop.swingx.JXDatePicker();
         jLabel3 = new javax.swing.JLabel();
-        jSlider1 = new javax.swing.JSlider();
+        weight = new javax.swing.JSlider();
         jLabel4 = new javax.swing.JLabel();
-        jComboBox1 = new javax.swing.JComboBox<>();
         jLabel5 = new javax.swing.JLabel();
-        jLabel6 = new javax.swing.JLabel();
-        jTextField2 = new javax.swing.JTextField();
-        jButton1 = new javax.swing.JButton();
-        jButton2 = new javax.swing.JButton();
+        cancel = new javax.swing.JButton();
+        submit = new javax.swing.JButton();
+        time_input = new javax.swing.JFormattedTextField();
+        reminder = new javax.swing.JCheckBox();
+        create_tag = new javax.swing.JButton();
+        jScrollPane2 = new javax.swing.JScrollPane();
+        tags_list = new javax.swing.JList();
         backgroundLabel = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         getContentPane().setLayout(null);
 
-        jTextField1.setBackground(new java.awt.Color(153, 153, 153));
-        jTextField1.setForeground(new java.awt.Color(204, 204, 255));
-        getContentPane().add(jTextField1);
-        jTextField1.setBounds(120, 40, 350, 24);
+        title.setBackground(new java.awt.Color(153, 153, 153));
+        getContentPane().add(title);
+        title.setBounds(120, 40, 380, 27);
 
         jLabel2.setForeground(new java.awt.Color(0, 0, 0));
         jLabel2.setText("Title:");
         getContentPane().add(jLabel2);
-        jLabel2.setBounds(50, 40, 41, 16);
+        jLabel2.setBounds(80, 40, 41, 20);
 
-        jTextArea1.setBackground(new java.awt.Color(255, 255, 255));
-        jTextArea1.setColumns(20);
-        jTextArea1.setRows(5);
-        jScrollPane1.setViewportView(jTextArea1);
+        desc.setBackground(new java.awt.Color(255, 255, 255));
+        desc.setColumns(20);
+        desc.setRows(5);
+        jScrollPane1.setViewportView(desc);
 
         getContentPane().add(jScrollPane1);
-        jScrollPane1.setBounds(120, 80, 350, 110);
+        jScrollPane1.setBounds(120, 80, 380, 110);
 
         jLabel1.setForeground(new java.awt.Color(0, 0, 0));
         jLabel1.setText("Description:");
         getContentPane().add(jLabel1);
-        jLabel1.setBounds(40, 80, 70, 16);
+        jLabel1.setBounds(40, 80, 70, 30);
 
-        jXDatePicker1.setBackground(new java.awt.Color(153, 153, 153));
-        getContentPane().add(jXDatePicker1);
-        jXDatePicker1.setBounds(120, 210, 139, 24);
+        date.setBackground(new java.awt.Color(153, 153, 153));
+        getContentPane().add(date);
+        date.setBounds(120, 210, 140, 27);
 
         jLabel3.setForeground(new java.awt.Color(0, 0, 0));
         jLabel3.setText("Due Date:");
         getContentPane().add(jLabel3);
-        jLabel3.setBounds(50, 210, 60, 16);
+        jLabel3.setBounds(50, 207, 60, 30);
 
-        jSlider1.setBackground(new java.awt.Color(153, 153, 153));
-        jSlider1.setForeground(new java.awt.Color(0, 0, 0));
-        jSlider1.setMaximum(10);
-        jSlider1.setMinimum(1);
-        getContentPane().add(jSlider1);
-        jSlider1.setBounds(120, 270, 220, 20);
+        weight.setBackground(new java.awt.Color(153, 153, 153));
+        weight.setForeground(new java.awt.Color(0, 0, 0));
+        weight.setMaximum(10);
+        weight.setMinimum(1);
+        weight.setValue(1);
+        getContentPane().add(weight);
+        weight.setBounds(120, 250, 160, 40);
 
         jLabel4.setForeground(new java.awt.Color(0, 0, 0));
         jLabel4.setText("Weight:");
         getContentPane().add(jLabel4);
-        jLabel4.setBounds(50, 270, 50, 16);
-
-        jComboBox1.setBackground(new java.awt.Color(153, 153, 153));
-        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
-        getContentPane().add(jComboBox1);
-        jComboBox1.setBounds(120, 310, 65, 26);
+        jLabel4.setBounds(60, 270, 50, 17);
 
         jLabel5.setForeground(new java.awt.Color(0, 0, 0));
         jLabel5.setText("Tags:");
         getContentPane().add(jLabel5);
-        jLabel5.setBounds(50, 306, 60, 30);
+        jLabel5.setBounds(320, 260, 60, 30);
 
-        jLabel6.setForeground(new java.awt.Color(0, 0, 0));
-        jLabel6.setText("Create New Tag:");
-        getContentPane().add(jLabel6);
-        jLabel6.setBounds(240, 310, 100, 16);
+        cancel.setBackground(new java.awt.Color(204, 204, 204));
+        cancel.setText("Cancel");
+        getContentPane().add(cancel);
+        cancel.setBounds(390, 390, 50, 31);
 
-        jTextField2.setBackground(new java.awt.Color(153, 153, 153));
-        getContentPane().add(jTextField2);
-        jTextField2.setBounds(350, 310, 120, 24);
+        submit.setBackground(new java.awt.Color(204, 204, 255));
+        submit.setText("Submit");
+        submit.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                submitMouseClicked(evt);
+            }
+        });
+        submit.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                submitActionPerformed(evt);
+            }
+        });
+        getContentPane().add(submit);
+        submit.setBounds(450, 390, 51, 31);
 
-        jButton1.setBackground(new java.awt.Color(204, 204, 204));
-        jButton1.setText("Cancel");
-        getContentPane().add(jButton1);
-        jButton1.setBounds(310, 350, 69, 32);
+        time_input.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                time_inputActionPerformed(evt);
+            }
+        });
+        getContentPane().add(time_input);
+        time_input.setBounds(380, 210, 120, 27);
 
-        jButton2.setBackground(new java.awt.Color(204, 204, 255));
-        jButton2.setText("Submit");
-        getContentPane().add(jButton2);
-        jButton2.setBounds(410, 350, 70, 32);
+        reminder.setText("Reminder");
+        reminder.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                reminderActionPerformed(evt);
+            }
+        });
+        getContentPane().add(reminder);
+        reminder.setBounds(280, 210, 78, 30);
+
+        create_tag.setText("Create New Tag");
+        create_tag.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                create_tagMouseClicked(evt);
+            }
+        });
+        getContentPane().add(create_tag);
+        create_tag.setBounds(270, 390, 110, 31);
+
+        tags_list.setModel(new javax.swing.AbstractListModel() {
+            String[] strings = { "Item 1", "Item 2", "Item 3", "Item 4", "Item 5" };
+            public int getSize() { return strings.length; }
+            public Object getElementAt(int i) { return strings[i]; }
+        });
+        tags_list.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_INTERVAL_SELECTION);
+        jScrollPane2.setViewportView(tags_list);
+
+        getContentPane().add(jScrollPane2);
+        jScrollPane2.setBounds(380, 260, 120, 120);
 
         backgroundLabel.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/background.jpg"))); // NOI18N
         backgroundLabel.setText("jLabel1");
         getContentPane().add(backgroundLabel);
-        backgroundLabel.setBounds(0, 0, 500, 410);
+        backgroundLabel.setBounds(0, 0, 520, 440);
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    private void time_inputActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_time_inputActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_time_inputActionPerformed
+
+    private void reminderActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_reminderActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_reminderActionPerformed
+
+    private void submitActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_submitActionPerformed
+       
+        
+    }//GEN-LAST:event_submitActionPerformed
+
+    private void submitMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_submitMouseClicked
+         
+        
+        if(!title.getText().equals("")){
+            task = new Task(title.getText(), desc.getText(), weight.getValue());
+            
+            if(!date.getDate().equals("") ) {
+                task.setDueDate(date.getDate().toString());
+            }
+        }
+        if(task != null){
+            Main.db.addTask(task);
+        }
+        
+        dispose();
+    }//GEN-LAST:event_submitMouseClicked
+
+    private void create_tagMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_create_tagMouseClicked
+        // TODO add your handling code here:
+    }//GEN-LAST:event_create_tagMouseClicked
+
     /**
      * @param args the command line arguments
      */
-//    public static void main(String args[]) {
-//        /* Set the Nimbus look and feel */
-//        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-//        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-//         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
-//         */
-//        try {
-//            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-//                if ("Nimbus".equals(info.getName())) {
-//                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-//                    break;
-//                }
-//            }
-//        } catch (ClassNotFoundException ex) {
-//            java.util.logging.Logger.getLogger(AddTask.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-//        } catch (InstantiationException ex) {
-//            java.util.logging.Logger.getLogger(AddTask.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-//        } catch (IllegalAccessException ex) {
-//            java.util.logging.Logger.getLogger(AddTask.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-//        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-//            java.util.logging.Logger.getLogger(AddTask.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-//        }
-//        //</editor-fold>
-//
-//        /* Create and display the form */
-//        java.awt.EventQueue.invokeLater(new Runnable() {
-//            public void run() {
-//                new AddTask().setVisible(true);
-//            }
-//        });
-//    }
+    public static void main(String args[]) {
+        /* Set the Nimbus look and feel */
+        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
+        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
+         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
+         */
+        try {
+            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
+                if ("Nimbus".equals(info.getName())) {
+                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
+                    break;
+                }
+            }
+        } catch (ClassNotFoundException ex) {
+            java.util.logging.Logger.getLogger(AddTask.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        } catch (InstantiationException ex) {
+            java.util.logging.Logger.getLogger(AddTask.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        } catch (IllegalAccessException ex) {
+            java.util.logging.Logger.getLogger(AddTask.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
+            java.util.logging.Logger.getLogger(AddTask.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        }
+        //</editor-fold>
+
+        /* Create and display the form */
+        java.awt.EventQueue.invokeLater(new Runnable() {
+            public void run() {
+                new AddTask().setVisible(true);
+            }
+        });
+    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel backgroundLabel;
-    private javax.swing.JButton jButton1;
-    private javax.swing.JButton jButton2;
-    private javax.swing.JComboBox<String> jComboBox1;
+    private javax.swing.JButton cancel;
+    private javax.swing.JButton create_tag;
+    private org.jdesktop.swingx.JXDatePicker date;
+    private javax.swing.JTextArea desc;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
-    private javax.swing.JLabel jLabel6;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JSlider jSlider1;
-    private javax.swing.JTextArea jTextArea1;
-    private javax.swing.JTextField jTextField1;
-    private javax.swing.JTextField jTextField2;
-    private org.jdesktop.swingx.JXDatePicker jXDatePicker1;
+    private javax.swing.JScrollPane jScrollPane2;
+    private javax.swing.JCheckBox reminder;
+    private javax.swing.JButton submit;
+    private javax.swing.JList tags_list;
+    private javax.swing.JFormattedTextField time_input;
+    private javax.swing.JTextField title;
+    private javax.swing.JSlider weight;
     // End of variables declaration//GEN-END:variables
 }
