@@ -13,6 +13,7 @@ public class RSS {
             BufferedReader in = new BufferedReader(new InputStreamReader(rssUrl.openStream()));
             ArrayList<String> titles = new ArrayList<>();
             ArrayList<String> descs = new ArrayList<>();
+            ArrayList<String> links = new ArrayList<>();
             String line;
             while((line = in.readLine()) != null){
                 if(line.contains("<title>")){
@@ -24,7 +25,6 @@ public class RSS {
                     titles.add(temp);
                    
                 }
-               line = in.readLine();
                 if(line.contains("<description>")){
                     int firstPos1 = line.indexOf("<description>");
                     String temp1 = line.substring(firstPos1);
@@ -34,13 +34,22 @@ public class RSS {
                     temp1 = temp1.replace("</description>", "");
                     descs.add(temp1);
                 } 
+                if(line.contains("<link>")){
+                    int firstPos1 = line.indexOf("<link>");
+                    String temp1 = line.substring(firstPos1);
+                    temp1 = temp1.replace("<link>", "");
+                    int lastPos1 = temp1.indexOf("</link>");
+                  //  temp1 = line.substring(firstPos1, lastPos1);
+                    temp1 = temp1.replace("</link>", "");
+                    links.add(temp1);
+                } 
             } 
             
             in.close();
             
             ArrayList<News> news = new ArrayList<>();
             for(int i=0; i<titles.size() && i<descs.size(); i++){
-                News n = new News("<h3>"+titles.get(i)+"</h3>","</br>"+descs.get(i));
+                News n = new News(titles.get(i), descs.get(i), links.get(i));
                 news.add(n);
             }
             return news;

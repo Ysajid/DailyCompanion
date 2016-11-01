@@ -27,17 +27,17 @@ public class Task {
     public Task() {
     }
 
-    Task(String title, String description){
+    public Task(String title, String description){
         this.title = title;
         this.description = description;
     }
-    Task(String title, String description, Date dueDate, Tag[] tags ){
+    public Task(String title, String description, Date dueDate, Tag[] tags ){
         this.title = title;
         this.description = description;
         this.dueDate = dueDate;
         this.tags = tags;
     }
-    Task(String title, String descrption, Date dueDate, boolean remind){
+    public Task(String title, String descrption, Date dueDate, boolean remind){
         this.title = title;
         this.description = descrption;
         this.dueDate = dueDate;

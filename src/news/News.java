@@ -12,13 +12,13 @@ package news;
 public class News {
     private String title;
     private String description;
+    private String link;
 
-    public News(String title, String description) {
+    public News(String title, String description, String link) {
         this.title = title;
         this.description = description;
+        this.link = link;
     }
-    
-    
 
     public String getDescription() {
         return description;
@@ -28,6 +28,12 @@ public class News {
         return title;
     }
 
+    public String getLink() {
+        return link;
+    }
+    
+    
+
     public void setDescription(String description) {
         this.description = description;
     }
@@ -35,6 +41,11 @@ public class News {
     public void setTitle(String title) {
         this.title = title;
     }
+
+    public void setLink(String link) {
+        this.link = link;
+    }
+    
     
     
 }
