@@ -5,9 +5,13 @@
  */
 package gui;
 
+import java.awt.Color;
 import java.awt.Component;
+import java.awt.Font;
+import javax.swing.JLabel;
 import javax.swing.JList;
 import javax.swing.ListCellRenderer;
+import tasks.Tag;
 import tasks.Task;
 
 /**
@@ -34,13 +38,13 @@ public class SingleTask extends javax.swing.JPanel implements ListCellRenderer<T
 
         title_label = new javax.swing.JLabel();
         desc_label = new javax.swing.JLabel();
+        due_date = new javax.swing.JLabel();
+        tags_panel = new javax.swing.JPanel();
 
         setPreferredSize(new java.awt.Dimension(135, 102));
 
-        title_label.setFont(new java.awt.Font("Noto Sans", 0, 24)); // NOI18N
+        title_label.setFont(new java.awt.Font("Noto Sans", 0, 18)); // NOI18N
         title_label.setText("jLabel1");
-
-        desc_label.setText("jLabel2");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
@@ -49,8 +53,10 @@ public class SingleTask extends javax.swing.JPanel implements ListCellRenderer<T
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(tags_panel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(desc_label, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(title_label, javax.swing.GroupLayout.DEFAULT_SIZE, 433, Short.MAX_VALUE))
+                    .addComponent(title_label, javax.swing.GroupLayout.DEFAULT_SIZE, 461, Short.MAX_VALUE)
+                    .addComponent(due_date, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
@@ -60,19 +66,40 @@ public class SingleTask extends javax.swing.JPanel implements ListCellRenderer<T
                 .addComponent(title_label)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(desc_label, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(74, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(due_date, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(tags_panel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
     }// </editor-fold>//GEN-END:initComponents
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel desc_label;
+    private javax.swing.JLabel due_date;
+    private javax.swing.JPanel tags_panel;
     private javax.swing.JLabel title_label;
     // End of variables declaration//GEN-END:variables
 
     @Override
     public Component getListCellRendererComponent(JList<? extends Task> jlist, Task e, int i, boolean bln, boolean bln1) {
-        this.title_label.setText("asd");
+        this.title_label.setText(e.getTitle());
+        Font f = title_label.getFont();
+        title_label.setFont(new Font(f.getName(),f.getSize(),f.getSize()+ e.getWeight()));
+        this.desc_label.setText(e.getDescription());
+        this.due_date.setText(e.getDueDate());
+        try{
+            if(e.getTags() != null){
+                for(Tag t : e.getTags()){
+                    JLabel tag_label = new JLabel(t.getName());
+                    tag_label.setBackground(new Color(t.getColor()));
+                }
+            }
+        }
+        catch(Exception a){
+            a.printStackTrace();
+        }
         return this;
     }
 }

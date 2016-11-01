@@ -39,10 +39,10 @@ public class Weather extends javax.swing.JFrame {
         CurrentWeather cwd = owm.currentWeatherByCityName("Toronto");
         DailyForecast fore = owm.dailyForecastByCityName("Toronto, CN", Byte.parseByte("5"));
         DailyForecast.Forecast fo = fore.getForecastInstance(WIDTH);
-        Icon iconRain = new ImageIcon("C:\\Users\\shiha\\Documents\\NetBeansProjects\\DailyCompanion\\rainy.png");
-        Icon iconSunny = new ImageIcon("C:\\Users\\shiha\\Documents\\NetBeansProjects\\DailyCompanion\\sunny.png");
-        Icon iconCloudy = new ImageIcon("C:\\Users\\shiha\\Documents\\NetBeansProjects\\DailyCompanion\\cloudy.png");
-        Icon iconOvercast = new ImageIcon("C:\\Users\\shiha\\Documents\\NetBeansProjects\\DailyCompanion\\overcast.png");
+        Icon iconRain = new ImageIcon("rainy.png");
+        Icon iconSunny = new ImageIcon("sunny.png");
+        Icon iconCloudy = new ImageIcon("cloudy.png");
+        Icon iconOvercast = new ImageIcon("overcast.png");
         
         humidity = cwd.getMainInstance().getHumidity();
         pressure = cwd.getMainInstance().getPressure();
@@ -108,7 +108,7 @@ public class Weather extends javax.swing.JFrame {
         conditionLabel.setForeground(new java.awt.Color(255, 255, 255));
         conditionLabel.setText("jLabel1");
         getContentPane().add(conditionLabel);
-        conditionLabel.setBounds(110, 130, 90, 16);
+        conditionLabel.setBounds(110, 130, 90, 17);
 
         temperatureLabel.setFont(new java.awt.Font("Dialog", 1, 36)); // NOI18N
         temperatureLabel.setForeground(new java.awt.Color(255, 255, 255));
@@ -119,24 +119,24 @@ public class Weather extends javax.swing.JFrame {
         speedLabel.setForeground(new java.awt.Color(255, 255, 255));
         speedLabel.setText("jLabel1");
         getContentPane().add(speedLabel);
-        speedLabel.setBounds(30, 250, 130, 16);
+        speedLabel.setBounds(30, 250, 130, 17);
 
         humidityLabel.setForeground(new java.awt.Color(255, 255, 255));
         humidityLabel.setText("jLabel1");
         getContentPane().add(humidityLabel);
-        humidityLabel.setBounds(170, 250, 110, 16);
+        humidityLabel.setBounds(170, 250, 110, 17);
 
         pressureLabel.setForeground(new java.awt.Color(255, 255, 255));
         pressureLabel.setText("jLabel1");
         getContentPane().add(pressureLabel);
-        pressureLabel.setBounds(30, 290, 150, 16);
+        pressureLabel.setBounds(30, 290, 150, 17);
 
         cityLabel.setForeground(new java.awt.Color(255, 255, 255));
         cityLabel.setText("jLabel1");
         getContentPane().add(cityLabel);
-        cityLabel.setBounds(140, 70, 120, 16);
+        cityLabel.setBounds(140, 70, 120, 17);
 
-        backgroundWeather.setIcon(new javax.swing.ImageIcon("C:\\Users\\shiha\\Documents\\NetBeansProjects\\DailyCompanion\\src\\weather\\weatherBackground2.jpg")); // NOI18N
+        backgroundWeather.setIcon(new javax.swing.ImageIcon(getClass().getResource("/resources/weatherBackground2.jpg"))); // NOI18N
         getContentPane().add(backgroundWeather);
         backgroundWeather.setBounds(0, 0, 650, 409);
 

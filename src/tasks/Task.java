@@ -7,18 +7,15 @@ public class Task {
     
     private String title;
     private String description;
-    private int type;
-    private Date dueDate;
-    private boolean remind = false;
+    private int weight = 1;
+    private String dueDate;
     private String status;
-    private int weight = 0;
     private Tag tags[];
 
-    public Task(String title, String description, Date dueDate, boolean remind, String status, int weight, Tag[] tags) {
+    public Task(String title, String description, int weight, String dueDate, String status, Tag[] tags) {
         this.title = title;
         this.description = description;
         this.dueDate = dueDate;
-        this.remind = remind;
         this.status = status;
         this.weight = weight;
         this.tags = tags;
@@ -27,27 +24,27 @@ public class Task {
     public Task() {
     }
 
-    public Task(String title, String description){
+    public Task(String title, String description, int weight){
         this.title = title;
         this.description = description;
+        this.weight = weight;
     }
-    public Task(String title, String description, Date dueDate, Tag[] tags ){
+    public Task(String title, String description, String dueDate, Tag[] tags ){
         this.title = title;
         this.description = description;
         this.dueDate = dueDate;
         this.tags = tags;
     }
-    public Task(String title, String descrption, Date dueDate, boolean remind){
+    public Task(String title, String descrption, String dueDate){
         this.title = title;
         this.description = descrption;
         this.dueDate = dueDate;
-        this.remind = remind;
     }
     public String getDescription() {
         return description;
     }
 
-    public Date getDueDate() {
+    public String getDueDate() {
         return dueDate;
     }
 
@@ -58,14 +55,23 @@ public class Task {
     public Tag[] getTags() {
         return tags;
     }
+    
+    public String getTagNames() {
+        
+        String ids = "";
+        if(tags != null){
+            for(Tag t : tags){
+                ids += t.getName()+ ",";
+            }
+        return ids.substring(0,ids.length()-1);
+        }
+        return ids;
+    }
 
     public String getTitle() {
         return title;
     }
 
-    public int getType() {
-        return type;
-    }
 
     public int getWeight() {
         return weight;
@@ -75,13 +81,10 @@ public class Task {
         this.description = description;
     }
 
-    public void setDueDate(Date dueDate) {
+    public void setDueDate(String dueDate) {
         this.dueDate = dueDate;
     }
 
-    public void setRemind(boolean remind) {
-        this.remind = remind;
-    }
 
     public void setStatus(String status) {
         this.status = status;
@@ -95,9 +98,6 @@ public class Task {
         this.title = title;
     }
 
-    public void setType(int type) {
-        this.type = type;
-    }
 
     public void setWeight(int weight) {
         this.weight = weight;

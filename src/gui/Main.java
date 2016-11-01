@@ -14,6 +14,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.AbstractListModel;
 import javax.swing.DefaultListModel;
 import javax.swing.JList;
 import javax.swing.ListModel;
@@ -24,7 +25,7 @@ import news.News;
 import tasks.Task;
 
 public class Main extends javax.swing.JFrame {
-    static Data db;
+    public static Data db;
     ListModel taskList;
     ArrayList<News> news;
 
@@ -72,8 +73,10 @@ public class Main extends javax.swing.JFrame {
     }
     public Main() {
       
+        db = new Data();
         initComponents();
         rss_JList.addMouseListener(new MouseAdapter() {
+            @Override
             public void mouseClicked(MouseEvent evt) {
                 JList list = (JList)evt.getSource();
                 if (evt.getClickCount() == 2) {
@@ -82,6 +85,26 @@ public class Main extends javax.swing.JFrame {
                 }
             }
         });
+        
+        java.awt.EventQueue.invokeLater(new Runnable() {
+
+            @Override
+            public void run() {
+                task_JList.setModel(new AbstractListModel() {
+                    ArrayList<Task> tasks = Main.db.getTasks();
+                    @Override
+                    public int getSize() {
+                        return tasks.size();
+                    }
+
+                    @Override
+                    public Object getElementAt(int i) {
+                        return tasks.get(i);
+                    }
+                });
+            }
+        });
+        
         task_JList.setCellRenderer(new SingleTask());
         fetchRSS();
         
@@ -109,11 +132,6 @@ public class Main extends javax.swing.JFrame {
         setResizable(false);
         getContentPane().setLayout(new java.awt.GridLayout(1, 0));
 
-        task_JList.setModel(new javax.swing.AbstractListModel() {
-            Task[] strings = { new Task("Item 1","")};
-            public int getSize() { return strings.length; }
-            public Object getElementAt(int i) { return strings[i]; }
-        });
         jScrollPane1.setViewportView(task_JList);
 
         newTask.setText("New Task");
@@ -246,6 +264,8 @@ public class Main extends javax.swing.JFrame {
 
  
     public static void main(String args[]) {
+        
+        
       
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
