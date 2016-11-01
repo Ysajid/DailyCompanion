@@ -25,6 +25,7 @@ import javax.swing.UIManager;
 import javax.swing.plaf.basic.BasicListUI;
 import javax.swing.plaf.basic.*;
 import news.News;
+import tasks.Task;
 
 /**
  *
@@ -33,6 +34,7 @@ import news.News;
 public class Main extends javax.swing.JFrame {
     static Data db;
     ListModel taskList;
+    ArrayList<News> news;
 
     /**
      * Creates new form Main
@@ -40,12 +42,12 @@ public class Main extends javax.swing.JFrame {
     
     private void fetchRSS(){
         try{
-            RSS rss = new RSS();
-            ArrayList<News> rssTitles = rss.readRSS("http://www.thedailystar.net/top-news/rss.xml");
+            
+            news = RSS.readRSS("http://www.thedailystar.net/top-news/rss.xml");
 
             DefaultListModel listModel = new DefaultListModel();
-            for(News item : rssTitles){
-                listModel.addElement("<html>" + item.getTitle()+item.getDescription()+ "</html>");
+            for(News item : news){
+                listModel.addElement("<html><h3>" + item.getTitle()+"</h3></br>" + item.getDescription()+ "</html>");
             }
             rss_JList.setModel(listModel);
         }
@@ -57,10 +59,11 @@ public class Main extends javax.swing.JFrame {
             rss_JList.setModel(listModel);
         }
     }
-    public static void openWebpage(URI uri) {
+    public static void openWebpage(String uri_str) {
         Desktop desktop = Desktop.isDesktopSupported() ? Desktop.getDesktop() : null;
         if (desktop != null && desktop.isSupported(Desktop.Action.BROWSE)) {
             try {
+                URI uri = new URI(uri_str);
                 desktop.browse(uri);
             } catch (Exception e) {
                 e.printStackTrace();
@@ -70,7 +73,7 @@ public class Main extends javax.swing.JFrame {
 
     public static void openWebpage(URL url) {
         try {
-            openWebpage(url.toURI());
+            openWebpage(url.toURI().toString());
         } catch (URISyntaxException e) {
             e.printStackTrace();
         }
@@ -82,12 +85,12 @@ public class Main extends javax.swing.JFrame {
             public void mouseClicked(MouseEvent evt) {
                 JList list = (JList)evt.getSource();
                 if (evt.getClickCount() == 2) {
-
-                    // Double-click detected
                     int index = list.locationToIndex(evt.getPoint());
+                    openWebpage(news.get(index).getLink());
                 }
             }
         });
+        task_JList.setCellRenderer(new SingleTask());
         fetchRSS();
         
     }
@@ -120,7 +123,7 @@ public class Main extends javax.swing.JFrame {
         getContentPane().setLayout(new java.awt.GridLayout(1, 0));
 
         task_JList.setModel(new javax.swing.AbstractListModel() {
-            String[] strings = { "Item 1", "Item 2", "Item 3", "Item 4", "Item 5" };
+            Task[] strings = { new Task("Item 1","")};
             public int getSize() { return strings.length; }
             public Object getElementAt(int i) { return strings[i]; }
         });
@@ -128,6 +131,11 @@ public class Main extends javax.swing.JFrame {
 
         jButton1.setText("New Task");
         jButton1.setToolTipText("Create new task");
+        jButton1.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jButton1MouseClicked(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
@@ -244,6 +252,10 @@ public class Main extends javax.swing.JFrame {
         // TODO add your handling code here:
         fetchRSS();
     }//GEN-LAST:event_reload_rssMouseClicked
+
+    private void jButton1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton1MouseClicked
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jButton1MouseClicked
 
     /**
      * @param args the command line arguments
