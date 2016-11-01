@@ -30,7 +30,18 @@ public class RSS {
                             int lastPos1 = temp1.indexOf("</description>");
                           //  temp1 = line.substring(firstPos1, lastPos1);
                           temp1 = temp1.replace("</description>", "");
-                            sourceCode += temp1 + "\n";
+                            sourceCode += temp1 + "\n -->";
+                            
+                        }
+                
+                if(line.contains("<link>")){
+                            int firstPos2 = line.indexOf("<link>");
+                            String temp2 = line.substring(firstPos2);
+                            temp2 = temp2.replace("<link>", "");
+                            int lastPos2 = temp2.indexOf("</link>");
+                          //  temp1 = line.substring(firstPos2, lastPos2);
+                          temp2 = temp2.replace("</link>", "");
+                            sourceCode += temp2 + "\n";
                             
                         } 
             } 
@@ -44,7 +55,7 @@ public class RSS {
         return null;
 }
     public static void main(String[] args){
-   // System.out.println(readRSS("http://www.thedailystar.net/top-news/rss.xml"));
+    System.out.println(readRSS("http://www.thedailystar.net/top-news/rss.xml"));
 }
 }
 
