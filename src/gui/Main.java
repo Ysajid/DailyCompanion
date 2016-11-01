@@ -24,6 +24,7 @@ import news.News;
 import tasks.Task;
 
 public class Main extends javax.swing.JFrame {
+    public String http = "http://www.thedailystar.net/top-news/rss.xml";
     static Data db;
     ListModel taskList;
     ArrayList<News> news;
@@ -35,8 +36,8 @@ public class Main extends javax.swing.JFrame {
     private void fetchRSS(){
         try{
             
-            news = RSS.readRSS("http://www.thedailystar.net/top-news/rss.xml");
-
+           // news = RSS.readRSS("http://www.thedailystar.net/top-news/rss.xml");
+            news = RSS.readRSS(http);
             DefaultListModel listModel = new DefaultListModel();
             for(News item : news){
                 listModel.addElement("<html><h3>" + item.getTitle()+"</h3></br>" + item.getDescription()+ "</html>");
@@ -91,6 +92,7 @@ public class Main extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        bg1 = new javax.swing.ButtonGroup();
         jPanel2 = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
         task_JList = new javax.swing.JList();
@@ -104,6 +106,10 @@ public class Main extends javax.swing.JFrame {
         jMenuBar1 = new javax.swing.JMenuBar();
         jMenu1 = new javax.swing.JMenu();
         jMenu2 = new javax.swing.JMenu();
+        settingsItem = new javax.swing.JMenuItem();
+        jMenu3 = new javax.swing.JMenu();
+        dailyStar = new javax.swing.JRadioButtonMenuItem();
+        independent = new javax.swing.JRadioButtonMenuItem();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setResizable(false);
@@ -227,7 +233,44 @@ public class Main extends javax.swing.JFrame {
         jMenu1.setText("File");
         jMenuBar1.add(jMenu1);
 
-        jMenu2.setText("Edit");
+        jMenu2.setText("Settings");
+
+        settingsItem.setText("Change City");
+        settingsItem.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                settingsItemMouseClicked(evt);
+            }
+        });
+        settingsItem.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                settingsItemActionPerformed(evt);
+            }
+        });
+        jMenu2.add(settingsItem);
+
+        jMenu3.setText("Change News Source");
+
+        bg1.add(dailyStar);
+        dailyStar.setSelected(true);
+        dailyStar.setText("The Daily Star");
+        dailyStar.addChangeListener(new javax.swing.event.ChangeListener() {
+            public void stateChanged(javax.swing.event.ChangeEvent evt) {
+                dailyStarStateChanged(evt);
+            }
+        });
+        jMenu3.add(dailyStar);
+
+        bg1.add(independent);
+        independent.setText("The Independent UK");
+        independent.addItemListener(new java.awt.event.ItemListener() {
+            public void itemStateChanged(java.awt.event.ItemEvent evt) {
+                independentItemStateChanged(evt);
+            }
+        });
+        jMenu3.add(independent);
+
+        jMenu2.add(jMenu3);
+
         jMenuBar1.add(jMenu2);
 
         setJMenuBar(jMenuBar1);
@@ -242,7 +285,24 @@ public class Main extends javax.swing.JFrame {
 
     private void newTaskMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_newTaskMouseClicked
         AddTask newTask = new AddTask();
+        
     }//GEN-LAST:event_newTaskMouseClicked
+
+    private void settingsItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_settingsItemActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_settingsItemActionPerformed
+
+    private void settingsItemMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_settingsItemMouseClicked
+        ChangeCity input = new ChangeCity();
+    }//GEN-LAST:event_settingsItemMouseClicked
+
+    private void independentItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_independentItemStateChanged
+        http = "http://www.independent.co.uk/news/uk/rss";
+    }//GEN-LAST:event_independentItemStateChanged
+
+    private void dailyStarStateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_dailyStarStateChanged
+        http = "http://www.thedailystar.net/top-news/rss.xml";
+    }//GEN-LAST:event_dailyStarStateChanged
 
  
     public static void main(String args[]) {
@@ -275,8 +335,12 @@ public class Main extends javax.swing.JFrame {
     
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.ButtonGroup bg1;
+    private javax.swing.JRadioButtonMenuItem dailyStar;
+    private javax.swing.JRadioButtonMenuItem independent;
     private javax.swing.JMenu jMenu1;
     private javax.swing.JMenu jMenu2;
+    private javax.swing.JMenu jMenu3;
     private javax.swing.JMenuBar jMenuBar1;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
@@ -287,6 +351,7 @@ public class Main extends javax.swing.JFrame {
     private javax.swing.JButton newTask;
     private javax.swing.JButton reload_rss;
     private javax.swing.JList rss_JList;
+    private javax.swing.JMenuItem settingsItem;
     private javax.swing.JList task_JList;
     // End of variables declaration//GEN-END:variables
 }
