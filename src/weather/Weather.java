@@ -1,6 +1,7 @@
 
 package weather;
 
+import gui.ChangeCity;
 import javax.swing.*;
 import java.io.IOException;
 import java.net.MalformedURLException;
@@ -36,8 +37,8 @@ public class Weather extends javax.swing.JFrame {
         String degree = "" + (char)176;
         
         OpenWeatherMap owm = new OpenWeatherMap("bdc2605d641073bc05c91883ee6c6fd5");
-        CurrentWeather cwd = owm.currentWeatherByCityName("Toronto");
-        DailyForecast fore = owm.dailyForecastByCityName("Toronto, CN", Byte.parseByte("5"));
+        CurrentWeather cwd = owm.currentWeatherByCityName(ChangeCity.cityName);
+        DailyForecast fore = owm.dailyForecastByCityName(ChangeCity.cityName, Byte.parseByte("5"));
         DailyForecast.Forecast fo = fore.getForecastInstance(WIDTH);
         Icon iconRain = new ImageIcon("rainy.png");
         Icon iconSunny = new ImageIcon("sunny.png");
