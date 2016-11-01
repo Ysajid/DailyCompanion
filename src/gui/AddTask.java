@@ -120,7 +120,7 @@ public class AddTask extends javax.swing.JFrame {
         getContentPane().add(jButton2);
         jButton2.setBounds(410, 350, 70, 32);
 
-        backgroundLabel.setIcon(new javax.swing.ImageIcon("C:\\Users\\shiha\\Documents\\NetBeansProjects\\DailyCompanion\\src\\gui\\background.jpg")); // NOI18N
+        backgroundLabel.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/background.jpg"))); // NOI18N
         backgroundLabel.setText("jLabel1");
         getContentPane().add(backgroundLabel);
         backgroundLabel.setBounds(0, 0, 500, 410);
