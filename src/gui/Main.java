@@ -6,6 +6,9 @@ import database.Data;
 import java.awt.Desktop;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import static java.awt.image.ImageObserver.WIDTH;
+import java.io.IOException;
+import java.net.MalformedURLException;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.net.URL;
@@ -15,12 +18,18 @@ import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.DefaultListModel;
+import javax.swing.Icon;
+import javax.swing.ImageIcon;
 import javax.swing.JList;
 import javax.swing.ListModel;
 import javax.swing.UIManager;
 import javax.swing.plaf.basic.BasicListUI;
 import javax.swing.plaf.basic.*;
+import net.aksingh.owmjapis.CurrentWeather;
+import net.aksingh.owmjapis.DailyForecast;
+import net.aksingh.owmjapis.OpenWeatherMap;
 import news.News;
+import org.json.JSONException;
 import tasks.Task;
 
 public class Main extends javax.swing.JFrame {
@@ -71,7 +80,7 @@ public class Main extends javax.swing.JFrame {
             e.printStackTrace();
         }
     }
-    public Main() {
+    public Main() throws IOException, JSONException{
       
         initComponents();
         rss_JList.addMouseListener(new MouseAdapter() {
@@ -85,6 +94,66 @@ public class Main extends javax.swing.JFrame {
         });
         task_JList.setCellRenderer(new SingleTask());
         fetchRSS();
+        getWeather();
+    }
+    
+     public void getWeather() throws IOException,MalformedURLException,JSONException{  
+        float humidity;
+        float pressure;
+        String city;
+        float windSpeed;
+        float percentageCloud;
+        boolean rain;
+        int temperature;
+        float divident = 0.555f; 
+        String degree = "" + (char)176;
+        
+        OpenWeatherMap owm = new OpenWeatherMap("bdc2605d641073bc05c91883ee6c6fd5");
+        CurrentWeather cwd = owm.currentWeatherByCityName(ChangeCity.cityName);
+        DailyForecast fore = owm.dailyForecastByCityName(ChangeCity.cityName, Byte.parseByte("5"));
+        DailyForecast.Forecast fo = fore.getForecastInstance(WIDTH);
+        Icon iconRain = new ImageIcon("C:\\Users\\shiha\\Documents\\NetBeansProjects\\DailyCompanion\\rainy.png");
+        Icon iconSunny = new ImageIcon("C:\\Users\\shiha\\Documents\\NetBeansProjects\\DailyCompanion\\sunny.png");
+        Icon iconCloudy = new ImageIcon("C:\\Users\\shiha\\Documents\\NetBeansProjects\\DailyCompanion\\cloudy.png");
+        Icon iconOvercast = new ImageIcon("C:\\Users\\shiha\\Documents\\NetBeansProjects\\DailyCompanion\\overcast.png");
+        
+        humidity = cwd.getMainInstance().getHumidity();
+        pressure = cwd.getMainInstance().getPressure();
+        city = cwd.getCityName();
+        windSpeed = fo.getWindSpeed();
+        percentageCloud = fo.getPercentageOfClouds();
+        rain = fo.hasRain();
+        temperature = (int)cwd.getMainInstance().getTemperature();
+        temperature = (int)(((temperature-32)* divident)+1);
+        
+        
+        cityLabel.setText(city);
+        temperatureLabel.setText(String.valueOf(temperature) + degree + "C");
+        speedLabel.setText("Wind: " + String.valueOf(windSpeed) + "km/h");
+        humidityLabel.setText("Humidity: " +String.valueOf(humidity) + "%");
+       // pressureLabel.setText("Air-Pressure: " + String.valueOf(pressure) + "mb");
+        
+        if(fo.hasRain()){
+            cloudIcon.setIcon(iconRain);
+            conditionLabel.setText("Rainy");
+        }
+        else{
+            if(percentageCloud < 10){
+                cloudIcon.setIcon(iconSunny);
+                conditionLabel.setText("Sunny");
+            }
+            else if(percentageCloud >= 10 && percentageCloud < 50){
+                cloudIcon.setIcon(iconCloudy);
+                conditionLabel.setText("Mostly Cloudy");
+            }
+            else{
+                cloudIcon.setIcon(iconOvercast);
+                conditionLabel.setText("Overcast");
+            }
+        }
+     //  System.out.println(pressure + " " + percentageCloud + " " + city + " " + windSpeed + " " + humidity + " " + temperature + degree );
+        
+        
         
     }
 
@@ -99,6 +168,13 @@ public class Main extends javax.swing.JFrame {
         newTask = new javax.swing.JButton();
         jPanel1 = new javax.swing.JPanel();
         jPanel3 = new javax.swing.JPanel();
+        cloudIcon = new javax.swing.JLabel();
+        cityLabel = new javax.swing.JLabel();
+        temperatureLabel = new javax.swing.JLabel();
+        conditionLabel = new javax.swing.JLabel();
+        speedLabel = new javax.swing.JLabel();
+        humidityLabel = new javax.swing.JLabel();
+        backgroundLabel = new javax.swing.JLabel();
         jPanel4 = new javax.swing.JPanel();
         jScrollPane2 = new javax.swing.JScrollPane();
         rss_JList = new javax.swing.JList();
@@ -113,7 +189,6 @@ public class Main extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setResizable(false);
-        getContentPane().setLayout(new java.awt.GridLayout(1, 0));
 
         task_JList.setModel(new javax.swing.AbstractListModel() {
             Task[] strings = { new Task("Item 1","")};
@@ -137,15 +212,15 @@ public class Main extends javax.swing.JFrame {
             .addGroup(jPanel2Layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane1)
-                    .addComponent(newTask, javax.swing.GroupLayout.DEFAULT_SIZE, 413, Short.MAX_VALUE))
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 425, Short.MAX_VALUE)
+                    .addComponent(newTask, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap())
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 530, Short.MAX_VALUE)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 543, Short.MAX_VALUE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(newTask)
                 .addContainerGap())
@@ -153,18 +228,43 @@ public class Main extends javax.swing.JFrame {
 
         newTask.getAccessibleContext().setAccessibleName("New Task\n");
 
-        getContentPane().add(jPanel2);
+        jPanel3.setLayout(null);
 
-        javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
-        jPanel3.setLayout(jPanel3Layout);
-        jPanel3Layout.setHorizontalGroup(
-            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 413, Short.MAX_VALUE)
-        );
-        jPanel3Layout.setVerticalGroup(
-            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 193, Short.MAX_VALUE)
-        );
+        cloudIcon.setText("jLabel1");
+        jPanel3.add(cloudIcon);
+        cloudIcon.setBounds(0, 0, 130, 110);
+
+        cityLabel.setFont(new java.awt.Font("Dialog", 1, 24)); // NOI18N
+        cityLabel.setForeground(new java.awt.Color(255, 255, 255));
+        cityLabel.setText("jLabel1");
+        jPanel3.add(cityLabel);
+        cityLabel.setBounds(210, 10, 150, 50);
+
+        temperatureLabel.setFont(new java.awt.Font("Dialog", 1, 24)); // NOI18N
+        temperatureLabel.setForeground(new java.awt.Color(255, 255, 255));
+        temperatureLabel.setText("jLabel1");
+        jPanel3.add(temperatureLabel);
+        temperatureLabel.setBounds(50, 90, 90, 80);
+
+        conditionLabel.setForeground(new java.awt.Color(255, 255, 255));
+        conditionLabel.setText("jLabel1");
+        jPanel3.add(conditionLabel);
+        conditionLabel.setBounds(90, 90, 80, 16);
+
+        speedLabel.setForeground(new java.awt.Color(255, 255, 255));
+        speedLabel.setText("jLabel1");
+        jPanel3.add(speedLabel);
+        speedLabel.setBounds(210, 90, 140, 16);
+
+        humidityLabel.setForeground(new java.awt.Color(255, 255, 255));
+        humidityLabel.setText("jLabel1");
+        jPanel3.add(humidityLabel);
+        humidityLabel.setBounds(210, 120, 120, 16);
+
+        backgroundLabel.setIcon(new javax.swing.ImageIcon(getClass().getResource("/weather/weatherBackground2.jpg"))); // NOI18N
+        backgroundLabel.setText("jLabel2");
+        jPanel3.add(backgroundLabel);
+        backgroundLabel.setBounds(0, 0, 420, 200);
 
         rss_JList.setBackground(new java.awt.Color(254, 254, 254));
         rss_JList.setModel(new javax.swing.AbstractListModel() {
@@ -215,20 +315,18 @@ public class Main extends javax.swing.JFrame {
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                    .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jPanel4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap())
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, 216, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
-
-        getContentPane().add(jPanel1);
 
         jMenu1.setText("File");
         jMenuBar1.add(jMenu1);
@@ -253,11 +351,6 @@ public class Main extends javax.swing.JFrame {
         bg1.add(dailyStar);
         dailyStar.setSelected(true);
         dailyStar.setText("The Daily Star");
-        dailyStar.addChangeListener(new javax.swing.event.ChangeListener() {
-            public void stateChanged(javax.swing.event.ChangeEvent evt) {
-                dailyStarStateChanged(evt);
-            }
-        });
         jMenu3.add(dailyStar);
 
         bg1.add(independent);
@@ -274,6 +367,27 @@ public class Main extends javax.swing.JFrame {
         jMenuBar1.add(jMenu2);
 
         setJMenuBar(jMenuBar1);
+
+        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
+        getContentPane().setLayout(layout);
+        layout.setHorizontalGroup(
+            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(layout.createSequentialGroup()
+                .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap())
+        );
+        layout.setVerticalGroup(
+            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(layout.createSequentialGroup()
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(layout.createSequentialGroup()
+                        .addContainerGap()
+                        .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap())
+        );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
@@ -300,16 +414,18 @@ public class Main extends javax.swing.JFrame {
         http = "http://www.independent.co.uk/news/uk/rss";
     }//GEN-LAST:event_independentItemStateChanged
 
-    private void dailyStarStateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_dailyStarStateChanged
-        http = "http://www.thedailystar.net/top-news/rss.xml";
-    }//GEN-LAST:event_dailyStarStateChanged
-
  
-    public static void main(String args[]) {
+    public static void main(String args[]) throws IOException, JSONException,MalformedURLException{
       
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new Main().setVisible(true);
+                try {
+                    new Main().setVisible(true);
+                } catch (IOException ex) {
+                    Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
+                } catch (JSONException ex) {
+                    Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
+                }
                 try {
                     db = new Data();
                     db.connect();
@@ -335,8 +451,13 @@ public class Main extends javax.swing.JFrame {
     
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JLabel backgroundLabel;
     private javax.swing.ButtonGroup bg1;
+    private javax.swing.JLabel cityLabel;
+    private javax.swing.JLabel cloudIcon;
+    private javax.swing.JLabel conditionLabel;
     private javax.swing.JRadioButtonMenuItem dailyStar;
+    private javax.swing.JLabel humidityLabel;
     private javax.swing.JRadioButtonMenuItem independent;
     private javax.swing.JMenu jMenu1;
     private javax.swing.JMenu jMenu2;
@@ -352,6 +473,8 @@ public class Main extends javax.swing.JFrame {
     private javax.swing.JButton reload_rss;
     private javax.swing.JList rss_JList;
     private javax.swing.JMenuItem settingsItem;
+    private javax.swing.JLabel speedLabel;
     private javax.swing.JList task_JList;
+    private javax.swing.JLabel temperatureLabel;
     // End of variables declaration//GEN-END:variables
 }
