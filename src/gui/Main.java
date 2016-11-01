@@ -5,13 +5,26 @@
  */
 package gui;
 
+import news.RSS;
 import database.Data;
+import java.awt.Desktop;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import java.net.URI;
+import java.net.URISyntaxException;
+import java.net.URL;
 import java.sql.Statement;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.DefaultListModel;
+import javax.swing.JList;
 import javax.swing.ListModel;
+import javax.swing.UIManager;
 import javax.swing.plaf.basic.BasicListUI;
+import javax.swing.plaf.basic.*;
+import news.News;
 
 /**
  *
@@ -24,8 +37,59 @@ public class Main extends javax.swing.JFrame {
     /**
      * Creates new form Main
      */
+    
+    private void fetchRSS(){
+        try{
+            RSS rss = new RSS();
+            ArrayList<News> rssTitles = rss.readRSS("http://www.thedailystar.net/top-news/rss.xml");
+
+            DefaultListModel listModel = new DefaultListModel();
+            for(News item : rssTitles){
+                listModel.addElement("<html>" + item.getTitle()+item.getDescription()+ "</html>");
+            }
+            rss_JList.setModel(listModel);
+        }
+        catch(Exception e){
+            e.printStackTrace();
+            DefaultListModel listModel = new DefaultListModel();
+            listModel.addElement("<html><h3>No Network Connetion</h3></html>");
+            
+            rss_JList.setModel(listModel);
+        }
+    }
+    public static void openWebpage(URI uri) {
+        Desktop desktop = Desktop.isDesktopSupported() ? Desktop.getDesktop() : null;
+        if (desktop != null && desktop.isSupported(Desktop.Action.BROWSE)) {
+            try {
+                desktop.browse(uri);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
+    public static void openWebpage(URL url) {
+        try {
+            openWebpage(url.toURI());
+        } catch (URISyntaxException e) {
+            e.printStackTrace();
+        }
+    }
     public Main() {
+      
         initComponents();
+        rss_JList.addMouseListener(new MouseAdapter() {
+            public void mouseClicked(MouseEvent evt) {
+                JList list = (JList)evt.getSource();
+                if (evt.getClickCount() == 2) {
+
+                    // Double-click detected
+                    int index = list.locationToIndex(evt.getPoint());
+                }
+            }
+        });
+        fetchRSS();
+        
     }
 
     /**
@@ -46,14 +110,14 @@ public class Main extends javax.swing.JFrame {
         jPanel4 = new javax.swing.JPanel();
         jScrollPane2 = new javax.swing.JScrollPane();
         rss_JList = new javax.swing.JList();
-        jButton2 = new javax.swing.JButton();
+        reload_rss = new javax.swing.JButton();
         jMenuBar1 = new javax.swing.JMenuBar();
         jMenu1 = new javax.swing.JMenu();
         jMenu2 = new javax.swing.JMenu();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setResizable(false);
-        getContentPane().setLayout(new java.awt.GridLayout());
+        getContentPane().setLayout(new java.awt.GridLayout(1, 0));
 
         task_JList.setModel(new javax.swing.AbstractListModel() {
             String[] strings = { "Item 1", "Item 2", "Item 3", "Item 4", "Item 5" };
@@ -64,7 +128,6 @@ public class Main extends javax.swing.JFrame {
 
         jButton1.setText("New Task");
         jButton1.setToolTipText("Create new task");
-        jButton1.setActionCommand("New Task");
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
@@ -102,14 +165,22 @@ public class Main extends javax.swing.JFrame {
             .addGap(0, 193, Short.MAX_VALUE)
         );
 
+        rss_JList.setBackground(new java.awt.Color(254, 254, 254));
         rss_JList.setModel(new javax.swing.AbstractListModel() {
             String[] strings = { "Item 1", "Item 2", "Item 3", "Item 4", "Item 5" };
             public int getSize() { return strings.length; }
             public Object getElementAt(int i) { return strings[i]; }
         });
+        rss_JList.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
+        rss_JList.setFixedCellWidth(135);
         jScrollPane2.setViewportView(rss_JList);
 
-        jButton2.setText("jButton2");
+        reload_rss.setText("Reload");
+        reload_rss.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                reload_rssMouseClicked(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
         jPanel4.setLayout(jPanel4Layout);
@@ -117,7 +188,7 @@ public class Main extends javax.swing.JFrame {
             jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel4Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jButton2, javax.swing.GroupLayout.DEFAULT_SIZE, 401, Short.MAX_VALUE)
+                .addComponent(reload_rss, javax.swing.GroupLayout.DEFAULT_SIZE, 401, Short.MAX_VALUE)
                 .addContainerGap())
             .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(jPanel4Layout.createSequentialGroup()
@@ -129,7 +200,7 @@ public class Main extends javax.swing.JFrame {
             jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel4Layout.createSequentialGroup()
                 .addContainerGap(349, Short.MAX_VALUE)
-                .addComponent(jButton2)
+                .addComponent(reload_rss)
                 .addContainerGap())
             .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(jPanel4Layout.createSequentialGroup()
@@ -169,6 +240,11 @@ public class Main extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    private void reload_rssMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_reload_rssMouseClicked
+        // TODO add your handling code here:
+        fetchRSS();
+    }//GEN-LAST:event_reload_rssMouseClicked
+
     /**
      * @param args the command line arguments
      */
@@ -186,11 +262,11 @@ public class Main extends javax.swing.JFrame {
                 
             }
         });
-      NewTask task = new NewTask();
-      task.setVisible(true);
-      task.setDefaultCloseOperation(EXIT_ON_CLOSE);
+//      NewTask task = new NewTask();
+//      task.setVisible(true);
+//      task.setDefaultCloseOperation(EXIT_ON_CLOSE);
       
-     
+      
     }
 
     @Override
@@ -203,7 +279,6 @@ public class Main extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButton1;
-    private javax.swing.JButton jButton2;
     private javax.swing.JMenu jMenu1;
     private javax.swing.JMenu jMenu2;
     private javax.swing.JMenuBar jMenuBar1;
@@ -213,6 +288,7 @@ public class Main extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel4;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
+    private javax.swing.JButton reload_rss;
     private javax.swing.JList rss_JList;
     private javax.swing.JList task_JList;
     // End of variables declaration//GEN-END:variables
