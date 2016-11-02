@@ -413,6 +413,13 @@ public class Main extends javax.swing.JFrame {
     private void reload_rssMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_reload_rssMouseClicked
         // TODO add your handling code here:
         fetchRSS();
+        try {
+            getWeather();
+        } catch (IOException ex) {
+            Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (JSONException ex) {
+            Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }//GEN-LAST:event_reload_rssMouseClicked
 
     private void newTaskMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_newTaskMouseClicked
@@ -421,7 +428,7 @@ public class Main extends javax.swing.JFrame {
     }//GEN-LAST:event_newTaskMouseClicked
 
     private void settingsItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_settingsItemActionPerformed
-        // TODO add your handling code here:
+        ChangeCity input = new ChangeCity();
     }//GEN-LAST:event_settingsItemActionPerformed
 
     private void settingsItemMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_settingsItemMouseClicked

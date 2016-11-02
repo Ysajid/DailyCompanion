@@ -5,6 +5,7 @@
  */
 package gui;
 
+import java.awt.Dimension;
 import javax.swing.JOptionPane;
 import tasks.Task;
 
@@ -19,7 +20,11 @@ public class AddTask extends javax.swing.JFrame {
      * Creates new form AddTask
      */
     public AddTask() {
+       // setSize(200, 200);
         initComponents();
+        setSize(520,480);
+        
+        setPreferredSize(new Dimension(200,200));
         setVisible(true);
     }
 
@@ -56,7 +61,7 @@ public class AddTask extends javax.swing.JFrame {
 
         title.setBackground(new java.awt.Color(153, 153, 153));
         getContentPane().add(title);
-        title.setBounds(120, 40, 380, 27);
+        title.setBounds(120, 40, 380, 24);
 
         jLabel2.setForeground(new java.awt.Color(0, 0, 0));
         jLabel2.setText("Title:");
@@ -78,7 +83,7 @@ public class AddTask extends javax.swing.JFrame {
 
         date.setBackground(new java.awt.Color(153, 153, 153));
         getContentPane().add(date);
-        date.setBounds(120, 210, 140, 27);
+        date.setBounds(120, 210, 143, 24);
 
         jLabel3.setForeground(new java.awt.Color(0, 0, 0));
         jLabel3.setText("Due Date:");
@@ -96,7 +101,7 @@ public class AddTask extends javax.swing.JFrame {
         jLabel4.setForeground(new java.awt.Color(0, 0, 0));
         jLabel4.setText("Weight:");
         getContentPane().add(jLabel4);
-        jLabel4.setBounds(60, 270, 50, 17);
+        jLabel4.setBounds(60, 270, 50, 16);
 
         jLabel5.setForeground(new java.awt.Color(0, 0, 0));
         jLabel5.setText("Tags:");
@@ -105,8 +110,13 @@ public class AddTask extends javax.swing.JFrame {
 
         cancel.setBackground(new java.awt.Color(204, 204, 204));
         cancel.setText("Cancel");
+        cancel.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                cancelActionPerformed(evt);
+            }
+        });
         getContentPane().add(cancel);
-        cancel.setBounds(390, 390, 50, 31);
+        cancel.setBounds(390, 390, 69, 32);
 
         submit.setBackground(new java.awt.Color(204, 204, 255));
         submit.setText("Submit");
@@ -121,7 +131,7 @@ public class AddTask extends javax.swing.JFrame {
             }
         });
         getContentPane().add(submit);
-        submit.setBounds(450, 390, 51, 31);
+        submit.setBounds(450, 390, 70, 32);
 
         time_input.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -129,7 +139,7 @@ public class AddTask extends javax.swing.JFrame {
             }
         });
         getContentPane().add(time_input);
-        time_input.setBounds(380, 210, 120, 27);
+        time_input.setBounds(380, 210, 120, 20);
 
         reminder.setText("Reminder");
         reminder.addActionListener(new java.awt.event.ActionListener() {
@@ -138,7 +148,7 @@ public class AddTask extends javax.swing.JFrame {
             }
         });
         getContentPane().add(reminder);
-        reminder.setBounds(280, 210, 78, 30);
+        reminder.setBounds(280, 210, 83, 30);
 
         create_tag.setText("Create New Tag");
         create_tag.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -146,8 +156,13 @@ public class AddTask extends javax.swing.JFrame {
                 create_tagMouseClicked(evt);
             }
         });
+        create_tag.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                create_tagActionPerformed(evt);
+            }
+        });
         getContentPane().add(create_tag);
-        create_tag.setBounds(270, 390, 110, 31);
+        create_tag.setBounds(270, 390, 110, 32);
 
         tags_list.setModel(new javax.swing.AbstractListModel() {
             String[] strings = { "Item 1", "Item 2", "Item 3", "Item 4", "Item 5" };
@@ -200,7 +215,18 @@ public class AddTask extends javax.swing.JFrame {
 
     private void create_tagMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_create_tagMouseClicked
         // TODO add your handling code here:
+        NewTag2 tag = new NewTag2();
     }//GEN-LAST:event_create_tagMouseClicked
+
+    private void cancelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cancelActionPerformed
+            // TODO add your handling code here:
+            dispose();
+    }//GEN-LAST:event_cancelActionPerformed
+
+    private void create_tagActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_create_tagActionPerformed
+        // TODO add your handling code here:
+        NewTag2 tag = new NewTag2();
+    }//GEN-LAST:event_create_tagActionPerformed
 
     /**
      * @param args the command line arguments

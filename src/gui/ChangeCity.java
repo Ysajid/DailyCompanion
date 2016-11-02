@@ -1,17 +1,21 @@
 
 package gui;
 
+import java.awt.Dimension;
+
 
 public class ChangeCity extends javax.swing.JFrame {
     public static String cityName = "Dhaka";
     public ChangeCity() {
         //setVisible(true);
         initComponents();
+         setSize(390,200);
+        
+        //setPreferredSize(new Dimension(200,200));
         setVisible(true);
-        setDefaultCloseOperation(EXIT_ON_CLOSE);
-        setSize(200,200);
         //String cityName = "Dhaka";
         cityName = cityInput.getText();
+        System.out.println(cityName);
     }
 
     @SuppressWarnings("unchecked")
@@ -45,6 +49,11 @@ public class ChangeCity extends javax.swing.JFrame {
                 submitMouseClicked(evt);
             }
         });
+        submit.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                submitActionPerformed(evt);
+            }
+        });
         getContentPane().add(submit);
         submit.setBounds(260, 120, 70, 32);
 
@@ -57,8 +66,15 @@ public class ChangeCity extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void submitMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_submitMouseClicked
-        setVisible(false);
+       // setVisible(false);
+       cityName = cityInput.getText();
+       dispose();
+       //System.out.println(cityName);
     }//GEN-LAST:event_submitMouseClicked
+
+    private void submitActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_submitActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_submitActionPerformed
 
    
     public static void main(String args[]) {
